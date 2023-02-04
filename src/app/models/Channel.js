@@ -4,8 +4,18 @@ const mongooseDelete = require('mongoose-delete');
 
 const Channel = new Schema(
   {
-    channelId: String,
-    title: String,
+    channelId: {
+      type: String,
+      require: true,
+      unquie: true,
+    },
+    title: {
+      type: String,
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+    },
   },
   {
     collection: 'channels',

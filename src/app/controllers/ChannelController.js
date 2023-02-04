@@ -19,7 +19,6 @@ class ChannelController {
   //[POST] //add channels /channels/add
   add(req, res, next) {
     const newChannel = req.body;
-    console.log('req.body', newChannel);
     Channel.create(newChannel)
       .then(newdata => {
         console.log('added!', newdata);

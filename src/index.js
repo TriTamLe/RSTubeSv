@@ -8,6 +8,7 @@ const database = require('./config/database/index.db');
 database.connect();
 
 app.use(bodyParser.json());
+app.use(express.json());
 
 route(app);
 
