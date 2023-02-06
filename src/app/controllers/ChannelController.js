@@ -3,7 +3,7 @@ const Channel = require('../models/Channel');
 class ChannelController {
   //[GET] //load channels  /channels/load
   load(req, res, next) {
-    Channel.find({})
+    Channel.find({ userId: req.body.userId })
       .then(channels => {
         console.log('load done!');
         res.json(channels);
@@ -24,6 +24,7 @@ class ChannelController {
         console.log('added!', newdata);
         res.json({
           added: 'done',
+          channel: newdata,
         });
       })
       .catch(err => {

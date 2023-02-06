@@ -3,12 +3,14 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const route = require('./routes/index.route');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const database = require('./config/database/index.db');
 database.connect();
 
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(cors());
 
 route(app);
 

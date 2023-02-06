@@ -5,13 +5,12 @@ require('dotenv').config();
 
 class UserController {
   register(req, res, next) {
-    const username = req.body.username;
-    const password = req.body.password;
+    const { username, password, fullname, email } = req.body;
 
-    if (!username || !password)
+    if (!username || !password || !email)
       return res.status(400).json({
         success: false,
-        message: 'Vui lòng nhập username hoặc password',
+        message: 'Thiếu email, mật khẩu hoặc tên đăng nhập',
       });
 
     User.findOne({ username })
@@ -21,24 +20,35 @@ class UserController {
             success: false,
             message: 'Tên đăng nhập này đã tồn tại trong hệ thống!',
           });
-
-        argon2
-          .hash(password)
-          .then(hashedPass => {
-            User.create({
-              username: username,
-              password: hashedPass,
-            }).then(newUser => {
-              return res.status(200).json({
-                success: true,
-                message: 'Đã tạo thành công người dùng mới',
-                user: newUser,
-                token: jwt.sign(
-                  { userId: newUser._id },
-                  process.env.ACCESS_TOKEN,
-                ),
+        User.findOne({ email })
+          .then(user => {
+            if (user)
+              return res.status(400).json({
+                success: false,
+                message: 'Email này đã tồn tại trong hệ thống!',
               });
-            });
+
+            argon2
+              .hash(password)
+              .then(hashedPass => {
+                User.create({
+                  username: username,
+                  password: hashedPass,
+                  fullname,
+                  email,
+                }).then(newUser => {
+                  return res.status(200).json({
+                    success: true,
+                    message: 'Đã tạo thành công người dùng mới',
+                    user: newUser,
+                    token: jwt.sign(
+                      { userId: newUser._id },
+                      process.env.ACCESS_TOKEN,
+                    ),
+                  });
+                });
+              })
+              .catch(next);
           })
           .catch(next);
       })
@@ -52,7 +62,7 @@ class UserController {
     if (!username || !password)
       return res.status(400).json({
         success: false,
-        message: 'Vui lòng nhập username hoặc password',
+        message: 'Vui lòng nhập tên đăng nhập hoặc mật khẩu',
       });
 
     User.findOne({ username }).then(user => {
@@ -78,6 +88,7 @@ class UserController {
             },
             process.env.ACCESS_TOKEN,
           ),
+          user,
         });
       });
     });

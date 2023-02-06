@@ -12,6 +12,15 @@ const User = new Schema(
       type: String,
       require: true,
     },
+    fullname: {
+      type: String,
+      require: true,
+      maxLength: 100,
+    },
+    email: {
+      type: String,
+      require: true,
+    },
   },
   {
     collection: 'users',

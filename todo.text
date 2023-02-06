@@ -1,8 +1,0 @@
-MAKE MIDDLEWARE TO VARY THE TOKEN
-----make a new folder for middleware 
-----make a file to vary the TOKEN
--------import userID filed to req.body for next middleware
-----import file on route /channel/...
-----clear all channels in database
-----testing
-FIND OUT HOW TO GET CHANNEL WITH DEFINITED userID
