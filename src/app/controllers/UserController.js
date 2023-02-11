@@ -10,7 +10,7 @@ class UserController {
     if (!username || !password || !email)
       return res.status(400).json({
         success: false,
-        message: 'Thiếu email, mật khẩu hoặc tên đăng nhập',
+        message: 'Lack of information',
       });
 
     User.findOne({ username })
@@ -18,14 +18,14 @@ class UserController {
         if (user)
           return res.status(400).json({
             success: false,
-            message: 'Tên đăng nhập này đã tồn tại trong hệ thống!',
+            message: 'Username had existed!',
           });
         User.findOne({ email })
           .then(user => {
             if (user)
               return res.status(400).json({
                 success: false,
-                message: 'Email này đã tồn tại trong hệ thống!',
+                message: 'Email had existed!',
               });
 
             argon2
@@ -39,7 +39,7 @@ class UserController {
                 }).then(newUser => {
                   return res.status(200).json({
                     success: true,
-                    message: 'Đã tạo thành công người dùng mới',
+                    message: 'Success to create new user',
                     user: newUser,
                     token: jwt.sign(
                       { userId: newUser._id },
@@ -62,33 +62,34 @@ class UserController {
     if (!username || !password)
       return res.status(400).json({
         success: false,
-        message: 'Vui lòng nhập tên đăng nhập hoặc mật khẩu',
+        message: 'Lack of information',
       });
 
     User.findOne({ username }).then(user => {
       if (user === null)
         return res.status(404).json({
           success: false,
-          message: 'Người dùng này không tồn tại trong hệ thống',
+          message: 'Username not existed',
         });
 
       argon2.verify(user.password, password).then(validate => {
         if (!validate)
           return res.status(400).json({
             success: false,
-            message: 'Mật khẩu không đúng',
+            message: 'Incorrect password',
           });
 
         res.status(200).json({
+          user,
           success: true,
-          message: 'Đăng nhập thành công',
+          message: 'Login success',
           token: jwt.sign(
             {
-              userID: user._id,
+              userId: user._id,
             },
             process.env.ACCESS_TOKEN,
           ),
-          user,
+
         });
       });
     });
