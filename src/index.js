@@ -1,7 +1,6 @@
 const express = require('express');
 require('dotenv').config();
 const app = express();
-const PORT = process.env.HOST_PORT;
 const route = require('./routes/index.route');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -16,6 +15,6 @@ app.use(cors());
 route(app);
 
 //Chạy server ở cổng 3001
-app.listen(PORT, () => {
+app.listen(() => {
   console.log(`Server is running on port ${PORT}`);
 });
