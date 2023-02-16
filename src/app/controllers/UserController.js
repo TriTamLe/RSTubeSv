@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../models/user');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -89,7 +89,6 @@ class UserController {
             },
             process.env.ACCESS_TOKEN,
           ),
-
         });
       });
     });

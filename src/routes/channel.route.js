@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const channelController = require('../app/controllers/ChannelController');
+const channelController = require('../app/controllers/channelController');
 const verifyToken = require('../app/middleware/varyToken');
 
 router.get('/load', verifyToken, channelController.load);
