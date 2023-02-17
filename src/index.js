@@ -4,6 +4,7 @@ const app = express();
 const route = require('./routes/index.route');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const PORT = process.env.PORT || 5000;
 
 const database = require('./config/database/index.db');
 database.connect();
@@ -15,6 +16,6 @@ app.use(cors());
 route(app);
 
 //Chạy server ở cổng 3001
-app.listen(() => {
-  console.log(`Server is running`);
+app.listen(PORT => {
+  console.log(`Server is running on port ${PORT}`);
 });
