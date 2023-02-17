@@ -15,6 +15,6 @@ app.use(cors());
 route(app);
 
 //Chạy server ở cổng 3001
-app.listen(port, () => {
+app.listen(() => {
   console.log(`Server is running`);
 });
