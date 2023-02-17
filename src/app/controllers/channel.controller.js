@@ -1,4 +1,4 @@
-const Channel = require('../models/channel');
+const Channel = require('../models/channel.model');
 
 class ChannelController {
   //[GET] //load channels  /channels/load
